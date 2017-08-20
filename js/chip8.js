@@ -479,7 +479,32 @@ var chip8 = function(){
 						
 						console.log("[tm]V["+xoff+"] = " +s.delay_timer);
 						break;
-					
+						
+					// FX0A: wait for key press (blocking)
+					case 0x000a:
+						logOpCode(s.opcode, "[kb]wait for keypress");
+						s.shouldRaisePC = false;
+						for(var i = 0; i < s.key.length; i++){
+							if(s.key[i] == 1){
+								s.shouldRaisePC = true;
+								
+								console.log("[kb]found at: " + s.key[i]);
+								break;
+							}
+						}
+						break;
+						
+					// FX15: delay = VX
+					case 0x0015:
+						logOpCode(s.opcode, "[tm]delay = VX");
+						
+						var xoff = (s.opcode & 0x0f00) >> 8;
+						var VX = s.V[xoff];
+						s.delay_timer = VX;
+						
+						console.log("[tm]delay = " + VX);
+						break;
+						
 					// FX33: too long to be described there check the chip8
 					// instruction set.
 					case 0x0033:
