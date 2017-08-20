@@ -566,6 +566,18 @@ var chip8 = function(){
 						s.I += VX + 1;
 						break;
 						
+					// FX65: starting at I = from V0 to VX
+					case 0x0065:
+						logOpCode(s.opcode, "[mem]V0 to VX = starting at I");
+						var xoff = (s.opcode & 0x0f00) >> 8;
+						
+						for(var i = 0; i<=xoff; i++){
+							s.V[i] = s.memory[s.I + i];
+						}
+						
+						s.I += VX + 1;
+						break;
+						
 					default:
 						logUnknowOp(s.opcode, s.pc);
 						break;
