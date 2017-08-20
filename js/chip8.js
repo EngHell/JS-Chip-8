@@ -484,10 +484,13 @@ var chip8 = function(){
 					// FX0A: wait for key press (blocking)
 					case 0x000a:
 						logOpCode(s.opcode, "[kb]wait for keypress");
+						
 						s.shouldRaisePC = false;
+						var xoff = (s.opcode & 0x0f00) >> 8;
 						for(var i = 0; i < s.key.length; i++){
 							if(s.key[i] == 1){
 								s.shouldRaisePC = true;
+								s.V[xoff] = i;
 								
 								console.log("[kb]found at: " + s.key[i]);
 								break;
