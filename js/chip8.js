@@ -531,6 +531,17 @@ var chip8 = function(){
 						console.log("[mem]now I = " + s.I);
 						break;
 						
+					// FX29: I = to font char of VX 0-f
+					case 0x0029:
+						logOpCode(s.opcode, "[mem]I = font char");
+						
+						var xoff = (s.opcode & 0x0f00) >> 8;
+						var VX = s.V[xoff];
+						s.I = VX * 5;
+						
+						console.log("[mem]now I = " + s.I);
+						break;
+						
 					// FX33: too long to be described there check the chip8
 					// instruction set.
 					case 0x0033:
