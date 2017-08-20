@@ -144,7 +144,7 @@ var chip8 = function(){
 				console.log("[cf]VX: " + VX + " NN: "+ NN);
 				
 				if(VX == NN){
-					s.pc+=2;
+					s.pc+=4;
 					s.shouldRaisePC = false;
 					
 					console.log("[cf]Skiped to pc: " + s.pc);
@@ -344,7 +344,26 @@ var chip8 = function(){
 						break;
 					}
 				break;
-			case 0xA000: // ANNN: sets I to the address NNN
+				
+				
+			// 9XY0: skips iv VX!=VY
+			case 0x9000:
+				logOpCode(s.opcode, "[cf]skip VX!=VY");
+				var xoff = (s.opcode & 0x0f00) >> 8;
+				var yoff = (s.opcode & 0x00f0) >> 4;
+				var VX = s.V[xoff];
+				var VY = s.V[yoff];
+				
+				if(VX != VY){
+					s.pc += 4;
+					s.shouldRaisePC = false;
+					
+					console.log("[cf] pc skipped to: " + s.pc);
+				}	
+				break;
+				
+			// ANNN: sets I to the address NNN
+			case 0xA000:
 				// Execute opcode
 				logOpCode(s.opcode, "[mem]I=NNN");
 				s.I = s.opcode & 0x0FFF;
