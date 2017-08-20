@@ -550,6 +550,19 @@ var chip8 = function(){
 						s.memory[s.I+1] = Math.floor(s.V[(s.opcode & 0x0f00 >> 8)] / 10) % 10;
 						s.memory[s.I+2] = (s.V[(s.opcode & 0x0f00 >> 8)] % 100) % 10;
 						break;
+						
+					// FX55: starting at I = from V0 to VX
+					case 0x0055:
+						logOpCode(s.opcode, "[mem]starting at I = V0 to VX");
+						var xoff = (s.opcode & 0x0f00) >> 8;
+						
+						for(var i = 0; i<=xoff; i++){
+							s.memory[s.I + i] = s.V[i];
+						}
+						
+						s.I += VX + 1;
+						break;
+						
 					default:
 						logUnknowOp(s.opcode, s.pc);
 						break;
