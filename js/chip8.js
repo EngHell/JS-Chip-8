@@ -370,6 +370,17 @@ var chip8 = function(){
 				console.log("[mem]New I: " + s.I);
 				break;
 				
+			// BNNN: jumps to NNN + V0
+			case 0xb000:
+				logOpCode(s.opcode, "[cf]pc=NNN + v0");
+				
+				var NNN = s.opcode & 0x0fff;
+				s.pc =  s.V[0x0] + NNN;
+				s.shouldRaisePC = false;
+				
+				console.log("[cf]new pc: " + s.pc);
+				break;
+				
 			// DXYN draws sprite 
 			case 0xd000:
 				logOpCode(s.opcode, "[gfx]!!!Fucking draw!!!");
