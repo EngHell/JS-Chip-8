@@ -381,6 +381,18 @@ var chip8 = function(){
 				console.log("[cf]new pc: " + s.pc);
 				break;
 				
+			// CXNN: VX = rand & NN
+			case 0xc000:
+				logOpCode(s.opcode, "[rnd]VX = rand & NN");
+				
+				var NN = s.opcode & 0x00ff;
+				var xoff = (s.opcode & 0x0f00) >> 8;
+				var rnd = Math.floor(Math.random() * 256) & NN;
+				s.V[xoff] = rnd;
+				
+				console.log("V[" + xoff +"] = " +rnd);
+				break;
+				
 			// DXYN draws sprite 
 			case 0xd000:
 				logOpCode(s.opcode, "[gfx]!!!Fucking draw!!!");
