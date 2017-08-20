@@ -506,6 +506,31 @@ var chip8 = function(){
 						console.log("[tm]delay = " + VX);
 						break;
 						
+					// FX18: sound = VX
+					case 0x0018:
+						logOpCode(s.opcode, "[tm]sound = VX");
+						
+						var xoff = (s.opcode & 0x0f00) >> 8;
+						var VX = s.V[xoff];
+						s.sound_timer = VX;
+						
+						console.log("[tm]sound = " + VX);
+						break;
+						
+					// FX1E: I += VX
+					case 0x001e:
+						logOpCode(s.opcode, "[mem]I += VX");
+						
+						var xoff = (s.opcode & 0x0f00) >> 8;
+						var VX = s.V[xoff];
+						s.I += VX;
+						s.V[0xf] = 0;
+						if(s.I > 0xfff)
+							s.V[0xf] = 1;
+						
+						console.log("[mem]now I = " + s.I);
+						break;
+						
 					// FX33: too long to be described there check the chip8
 					// instruction set.
 					case 0x0033:
