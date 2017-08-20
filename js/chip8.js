@@ -363,7 +363,7 @@ var chip8 = function(){
 				break;
 				
 			// ANNN: sets I to the address NNN
-			case 0xA000:
+			case 0xa000:
 				// Execute opcode
 				logOpCode(s.opcode, "[mem]I=NNN");
 				s.I = s.opcode & 0x0FFF;
