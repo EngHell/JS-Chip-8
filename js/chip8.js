@@ -470,6 +470,18 @@ var chip8 = function(){
 			// multiple things
 			case 0xf000:
 				switch(s.opcode & 0x00ff){
+					// FX07: VX = delay timer
+					case 0x0007:
+						logOpCode(s.opcode, "[tm]VX = delay");
+						
+						var xoff = (s.opcode & 0x0f00) >> 8;
+						s.V[xoff] = s.delay_timer;
+						
+						console.log("[tm]V["+xoff+"] = " +s.delay_timer);
+						break;
+					
+					// FX33: too long to be described there check the chip8
+					// instruction set.
 					case 0x0033:
 						logOpCode(s.opcode);
 						s.memory[s.I] = Math.floor(s.V[(s.opcode & 0x0f00 >> 8)] / 100);
