@@ -57,6 +57,12 @@ var tick = function(){
 		console.log("exiting execution since theres no thing to be accesed outside of rom memory");
 		clearInterval(control.intervalId);
 	}
+	
+	if(c8.delay_timer > 0)
+		--c8.delay_timer;
+	
+	if(c8.sound_timer > 0)
+		--c8.sound_timer;
 }
 
 // load the room and starts the emulation
