@@ -136,7 +136,7 @@ var chip8 = function(){
 				
 			// 0x3XNN: skips next instruction if VX==NN
 			case 0x3000:
-				logOpCode(s.opcode, "[cf]skip ==");
+				logOpCode(s.opcode, "[cf]skip VX==NN");
 				
 				var VX = s.V[(s.opcode & 0x0f00) >> 8];
 				var NN = s.opcode & 0x00ff;
@@ -434,6 +434,7 @@ var chip8 = function(){
 						var keycode = (s.opcode & 0x0f00) >> 8;
 						var keystate = s.key[keycode];
 						
+						console.log("[kb]we are at pc: " + s.pc);
 						console.log("[kb]key["+ keycode +"] : " + keystate);
 						
 						if(keystate!=0){
