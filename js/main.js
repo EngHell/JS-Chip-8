@@ -2,7 +2,7 @@
 var c8 = chip8();
 var ctx;
 var control = {
-	fps : 60,
+	fps : 120,
 	intervalId: 0
 }
 
