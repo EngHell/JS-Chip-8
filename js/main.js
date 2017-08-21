@@ -67,6 +67,7 @@ var tick = function(){
 
 // load the room and starts the emulation
 document.getElementById("load").onclick = function(){
+	console.clear();
 	//Set up render system and register input callbacks
 	initGFX();
 	
