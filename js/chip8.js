@@ -436,9 +436,10 @@ var chip8 = function(){
 						
 						console.log("[kb]we are at pc: " + s.pc);
 						console.log("[kb]key["+ keycode +"] : " + keystate);
+						console.log("[kb]we should skip to:" + (s.pc+4));
 						
 						if(keystate!=0){
-							s.pc +4;
+							s.pc += 4;
 							s.shouldRaisePC = false;
 							
 							console.log("[kb]so we skiped to pc: " + s.pc);
@@ -455,7 +456,7 @@ var chip8 = function(){
 						console.log("[kb]key["+ keycode +"] : " + keystate);
 						
 						if(keystate==0){
-							s.pc +4;
+							s.pc += 4;
 							s.shouldRaisePC = false;
 							
 							console.log("[kb]so we skiped to pc: " + s.pc);
