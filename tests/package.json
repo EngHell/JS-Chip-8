@@ -1,0 +1,11 @@
+{
+  "name": "js-chip-8-tests",
+  "version": "1.0.0",
+  "description": "Unit Testings for js-chip-8",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "author": "enghell",
+  "license": "ISC"
+}
