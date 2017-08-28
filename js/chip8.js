@@ -76,7 +76,7 @@ var chip8 = function(){
 	
 	chip8.emulateCycle = function() {
 		s = self;
-		console.log()
+		console.log();
 		s.opcode = s.memory[s.pc] << 8 | s.memory[s.pc + 1];
 		
 		switch(s.opcode & 0xF000){
