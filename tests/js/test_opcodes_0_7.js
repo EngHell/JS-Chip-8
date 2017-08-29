@@ -134,4 +134,15 @@ describe("opcodes", function () {
        expect(c8.V[10]).toEqual(0x30);
     });
 
+    // 7XNN: adds to VX NN
+    it("0x7XNN: X = 10, VX = 10, NN = 10, so vx will be 20", function () {
+        c8.memory[512] = 0x7a;
+        c8.memory[513] = 0x0a;
+        c8.V[10] = 10;
+
+        c8.emulateCycle();
+
+        expect(c8.V[10]).toEqual(20);
+    })
+
 });
