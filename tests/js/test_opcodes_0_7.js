@@ -1,4 +1,4 @@
-describe("opcodes", function () {
+describe("opcodes from 0x0000 to 0x7000", function () {
     var c8, X, Y, N, NN, NNN;
 
     beforeEach(function () {
