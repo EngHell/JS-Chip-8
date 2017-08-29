@@ -86,7 +86,7 @@ document.getElementById("stop").onclick = function(){
 
 // Canvas creation
 var initGFX = function() {
-	c = document.getElementById("screen");
+	var c = document.getElementById("screen");
 	ctx = c.getContext("2d");
 	draw.clearScren();
 };
