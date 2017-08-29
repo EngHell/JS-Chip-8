@@ -22,5 +22,17 @@ describe("opcodes", function () {
 
     });
 
+    it("0x00ee: returns from subroutine sp, will decrement to 0 and pc will go to 522", function () {
+        // since we have to go one instruction forward to avoid an infinite loop
+        // its 520 + 2 where we will end
+        c8.stack[0] = 520;
+        c8.sp = 1;
+        c8.memory[512] = 0x00;
+        c8.memory[513] = 0xee;
 
+        c8.emulateCycle();
+
+        expect(c8.sp).toEqual(0);
+        expect(c8.pc).toEqual(522);
+    });
 });
