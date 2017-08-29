@@ -322,7 +322,7 @@ var chip8 = function(){
 						VY = s.V[X];
 						var msb = VY & 128;
 
-						s.V[xoff] = VY << 1;
+						s.V[X] = VY << 1;
 						s.V[0xf] = msb;
 
 						console.log("[bo]VX:" + VY + "<<1: " + (VY << 1).toString(2) + " msb: " + msb );
