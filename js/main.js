@@ -4,7 +4,7 @@ var ctx;
 var control = {
 	fps : 120,
 	intervalId: 0
-}
+};
 
 // key map
 // Keypad                   Keyboard
@@ -30,7 +30,7 @@ var keyDown = function(e){
 		c8.key[keycode] = 1;
 	}
 	
-}
+};
 
 var keyUp = function(e){
 	var keycode = keyMap[e.keyCode];
@@ -38,7 +38,7 @@ var keyUp = function(e){
 		c8.key[keycode] = 0;
 	}
 	
-}
+};
 
 window.addEventListener("keydown", keyDown, false);
 window.addEventListener("keyup", keyUp, false);
@@ -63,7 +63,7 @@ var tick = function(){
 	
 	if(c8.sound_timer > 0)
 		--c8.sound_timer;
-}
+};
 
 // load the room and starts the emulation
 document.getElementById("load").onclick = function(){
@@ -89,7 +89,7 @@ var initGFX = function() {
 	c = document.getElementById("screen");
 	ctx = c.getContext("2d");
 	draw.clearScren();
-}
+};
 
 // Canvas abstraction
 var draw = {};
@@ -100,14 +100,14 @@ draw.point = function(x, y, color){
 	ctx.fillStyle = color;
 	// in this case 4 cuz ive set the scale of the screen to 4x
 	ctx.fillRect(x * scaleFactor,y * scaleFactor, scaleFactor, scaleFactor);
-}
+};
 
 // clear the screen
 draw.clearScren = function() {
 	var scaleFactor = 4;
 	ctx.fillStyle = "#fff";
 	ctx.fillRect(0, 0, 64 * scaleFactor, 32 * scaleFactor)
-}
+};
 
 // this is run everytime the draw flag is activated
 draw.draw = function() {
@@ -128,26 +128,26 @@ draw.draw = function() {
 		}
 	}
 	s.dFlags.d = false;
-}
+};
 
 //translates to uint into an opcode number
 var t2Uint = function(a, b){
 	return (a << 8) | b;
-}
+};
 
 //checks the opcode at certain memory spot
 var g2mUint = function(start){
 	return t2Uint(c8.memory[start], c8.memory[start + 1]);
-}
+};
 
 //gets the uint at certain memoery spot
 var g1mUint = function(start){
 	return c8.memory[start];
-}
+};
 
 //checks the sprite at certain memory spot
 var gsprite = function(start, height){
 	for(var i = 0; i < height; i++){
 		console.log( g1mUint(start + (i*2) ).toString(2) );
 	}
-}
+};
