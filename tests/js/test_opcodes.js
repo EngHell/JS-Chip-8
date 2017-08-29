@@ -1,5 +1,5 @@
 describe("opcodes", function () {
-    var c8;
+    var c8, X, Y, N, NN, NNN;
 
     beforeEach(function () {
        c8 = chip8();
@@ -54,5 +54,27 @@ describe("opcodes", function () {
         expect(c8.sp).toEqual(1);
         expect(c8.stack[0]).toEqual(512);
         expect(c8.pc).toEqual(520);
+    });
+
+    //0x3XNN: skips next instruction if VX==NN
+    it("0x3XNN: X is 1, VX will be 10 and NN 10, so it will skip, and pc will be 514+2", function () {
+        c8.memory[512] = 0x31;
+        c8.memory[513] = 0x0a; //0x0a : 10
+        c8.V[1] = 10;
+
+        c8.emulateCycle();
+
+        expect(c8.pc).toEqual(516);
+    });
+
+    //0x3XNN: skips next instruction if VX==NN
+    it("0x3XNN: X is 2, VX will be 20 and NN 10, so it won't skip, and pc will be 514", function () {
+        c8.memory[512] = 0x32;
+        c8.memory[513] = 0x0a; //0x0a : 10
+        c8.V[2] = 20;
+
+        c8.emulateCycle();
+
+        expect(c8.pc).toEqual(514);
     })
 });
