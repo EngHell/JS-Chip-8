@@ -44,4 +44,15 @@ describe("opcodes", function () {
 
         expect(c8.pc).toEqual(520);
     });
+
+    it("0x2NNN: call subroutine at address NNN, sp will increment to 1, stack[0] will be set to 520 and pc will move to 520", function () {
+        c8.memory[512] = 0x22;
+        c8.memory[513] = 0x08;
+
+        c8.emulateCycle();
+
+        expect(c8.sp).toEqual(1);
+        expect(c8.stack[0]).toEqual(512);
+        expect(c8.pc).toEqual(520);
+    })
 });
