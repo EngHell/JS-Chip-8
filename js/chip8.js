@@ -460,7 +460,7 @@ var chip8 = function(){
 
 						s.V[X] = s.delay_timer;
 
-						console.log("[tm]V["+xoff+"] = " +s.delay_timer);
+						console.log("[tm]V["+X+"] = " +s.delay_timer);
 						break;
 
 					// FX0A: wait for key press (blocking)
@@ -604,7 +604,7 @@ var chip8 = function(){
 
 	var logOpCode = function(opcode, extra ){
 		extra = (typeof extra !== 'undefined') ? extra : "";
-		console.log("pc: " + s.pc + " know opcode: " + opcode.toString(16).toUpperCase() + extra);
+		console.log("pc: " + self.pc + " know opcode: " + opcode.toString(16).toUpperCase() + extra);
 	};
 
 	var logUnknowOp = function(opcode, pc){
