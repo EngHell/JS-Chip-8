@@ -1,6 +1,4 @@
 var chip8 = function(){
-	var root = this;
-
 	var version = "1.0.0";
 
 	var chip8_fontset = new Uint8Array(
@@ -45,7 +43,8 @@ var chip8 = function(){
 			w: 0,
 			h: 0
 		},
-		shouldRaisePC : true
+		shouldRaisePC : true,
+        version: version
 	};
 	var self = chip8;
 
