@@ -17,6 +17,7 @@ describe("opcodes", function () {
         c8.memory[513] = 0xe0;
         c8.emulateCycle();
 
+        // we can do this since this array is 0 filled.
         var testGFX = new Uint8Array(c8.gfx.length);
 
         expect(c8.gfx).toEqual(testGFX);
