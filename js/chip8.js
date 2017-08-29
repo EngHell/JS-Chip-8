@@ -75,15 +75,18 @@ var chip8 = function(){
 	};
 
 	chip8.emulateCycle = function() {
-        //var s = self;
+        var s = self;
         opcode = s.memory[s.pc] << 8 | s.memory[s.pc + 1];
         var i;
         var X = (opcode & 0x0f00) >> 8;
         var Y = (opcode & 0x00f0) >> 4;
         var NNN = opcode & 0x0fff;
         var NN = opcode & 0x00ff;
+        var N = opcode & 0x000f;
         var VX;
         var VY;
+        var keycode;
+        var keystate;
         
 		console.log();
 
@@ -178,12 +181,12 @@ var chip8 = function(){
 			case 0x5000:
 				logOpCode(opcode, "[cf]skip VX==VY");
 
-				var VX = s.V[(opcode & 0x0f00) >> 8];
-				var VY = s.V[(opcode & 0x00f0) >> 4];
+				VX = s.V[(opcode & 0x0f00) >> 8];
+				VY = s.V[(opcode & 0x00f0) >> 4];
 
 				console.log("[cf]VX: " + VX + " VY: "+ VY);
 
-				if(VX == VY){
+				if(VX === VY){
 					s.pc+=4;
 					s.shouldRaisePC = false;
 
@@ -225,12 +228,10 @@ var chip8 = function(){
 					// 0x8XY1: sets VX to VX or VY
 					case 0x0001:
 						logOpCode(opcode, "[bo]VX=VX|VY");
-						var xoff = (opcode & 0x0f00) >> 8;
-						var yoff = (opcode & 0x00f0) >> 4;
-						var VX = s.V[xoff];
-						var VY = s.V[yoff];
+						VX = s.V[X];
+						VY = s.V[Y];
 						var OR = VX | VY;
-						s.V[xoff] = OR;
+						s.V[X] = OR;
 
 						console.log("[bo]" + VX.toString(2));
 						console.log("[bo]" + VY.toString(2));
@@ -240,12 +241,10 @@ var chip8 = function(){
 					// 0x8XY2: VX = VX and VY
 					case 0x0002:
 						logOpCode(opcode, "[bo]VX=VX&VY");
-						var xoff = (opcode & 0x0f00) >> 8;
-						var yoff = (opcode & 0x00f0) >> 4;
-						var VX = s.V[xoff];
-						var VY = s.V[yoff];
+						VX = s.V[X];
+						VY = s.V[Y];
 						var AND = VX & VY;
-						s.V[xoff] = AND;
+						s.V[X] = AND;
 
 						console.log("[bo]" + VX.toString(2));
 						console.log("[bo]" + VY.toString(2));
@@ -255,12 +254,10 @@ var chip8 = function(){
 					// 0x8XY2: VX = VX xor VY
 					case 0x0003:
 						logOpCode(opcode, "[bo]VX=VX^VY");
-						var xoff = (opcode & 0x0f00) >> 8;
-						var yoff = (opcode & 0x00f0) >> 4;
-						var VX = s.V[xoff];
-						var VY = s.V[yoff];
+						VX = s.V[X];
+						VY = s.V[Y];
 						var XOR = VX ^ VY;
-						s.V[xoff] = XOR;
+						s.V[X] = XOR;
 
 						console.log("[bo]" + VX.toString(2));
 						console.log("[bo]" + VY.toString(2));
@@ -281,28 +278,25 @@ var chip8 = function(){
 					// 0x8XY5: vx -= vy, sets vf to 0 if borrow, 1 if not
 					case 0x0005:
 						logOpCode(opcode, "[mt]VX-=VY");
-						var xoff = (opcode & 0x0f00) >> 8;
-						var yoff = (opcode & 0x00f0) >> 4;
-						var VX = s.V[xoff];
-						var VY = s.V[yoff];
+
+						VX = s.V[X];
+						VY = s.V[Y];
 
 						s.V[0xf] = 1;
 						if(VY > VX)
 							s.V[0xf] = 0;
 
-						s.V[xoff] -= VY;
+						s.V[X] -= VY;
 						console.log("[mt]VX: " + VX + " VY: " + VY);
 						break;
 
 					//8XY6: VF = lsb, vx = vx >> 1
 					case 0x0006:
 						logOpCode(opcode, "[bo]VX = VX>>1");
-						var xoff = (opcode & 0x0f00) >> 8;
-						var yoff = (opcode & 0x00f0) >> 4;
-						var VY = s.V[yoff];
+						VY = s.V[Y];
 						var lsb = VY & 1;
 
-						s.V[xoff] = VY >> 1;
+						s.V[X] = VY >> 1;
 						s.V[0xf]=lsb;
 
 						console.log("[bo]VX:" + VY + ">>1: " + (VY >> 1).toString(2) + " lsb: " + lsb );
@@ -311,25 +305,22 @@ var chip8 = function(){
 					// 0x8XY7: vx=vy - vx, sets vf to 0 if borrow, 1 if not
 					case 0x0007:
 						logOpCode(opcode, "[mt]VX=VY-VX");
-						var xoff = (opcode & 0x0f00) >> 8;
-						var yoff = (opcode & 0x00f0) >> 4;
-						var VX = s.V[xoff];
-						var VY = s.V[yoff];
+						VX = s.V[X];
+						VY = s.V[Y];
 
 						s.V[0xf] = 1;
 						if(VY>VX)
 							s.V[0xf] = 0;
 
-						s.V[xoff] = VY - VX;
+						s.V[X] = VY - VX;
 						console.log("[mt]VY: " + VY + " VX: " + VX);
 						break;
 
 						//8XYE: VF = msb, vx = VY << 1
 					case 0x000E:
 						logOpCode(opcode, "[bo]VX = VX<<1");
-						var xoff = (opcode & 0x0f00) >> 8;
-						var yoff = (opcode & 0x00f0) >> 4;
-						var VY = s.V[yoff];
+
+						VY = s.V[X];
 						var msb = VY & 128;
 
 						s.V[xoff] = VY << 1;
@@ -348,12 +339,11 @@ var chip8 = function(){
 			// 9XY0: skips iv VX!=VY
 			case 0x9000:
 				logOpCode(opcode, "[cf]skip VX!=VY");
-				var xoff = (opcode & 0x0f00) >> 8;
-				var yoff = (opcode & 0x00f0) >> 4;
-				var VX = s.V[xoff];
-				var VY = s.V[yoff];
 
-				if(VX != VY){
+				VX = s.V[X];
+				VY = s.V[Y];
+
+				if(VX !== VY){
 					s.pc += 4;
 					s.shouldRaisePC = false;
 
@@ -383,30 +373,26 @@ var chip8 = function(){
 			case 0xc000:
 				logOpCode(opcode, "[rnd]VX = rand & NN");
 
-				var xoff = (opcode & 0x0f00) >> 8;
 				var rnd = Math.floor(Math.random() * 256) & NN;
-				s.V[xoff] = rnd;
+				s.V[X] = rnd;
 
-				console.log("V[" + xoff +"] = " +rnd);
+				console.log("V[" + X +"] = " +rnd);
 				break;
 
 			// DXYN draws sprite
 			case 0xd000:
 				logOpCode(opcode, "[gfx]!!!Fucking draw!!!");
-				var x = s.V[(opcode & 0x0f00) >> 8];
-				var y = s.V[(opcode & 0x00f0) >> 4];
-				var height = opcode & 0x000f;
-				console.log("[gfx]I: "+ s.I +" x: " + x + " y: " + y + " h: " + height);
+				console.log("[gfx]I: "+ s.I +" x: " + X + " y: " + Y + " h: " + N);
 				var pixel;
 
 				s.V[0xF] = 0;
-				for(var yline = 0; yline < height; yline++){
+				for(var yline = 0; yline < N; yline++){
 					pixel = s.memory[s.I + yline];
 
 					for(var xline = 0; xline < 8; xline++){
-						if((pixel & (0x80 >> xline)) != 0) {
-							var gfxOffset = x + xline +((y + yline) * 64);
-							if(s.gfx[gfxOffset] == 1) s.V[0xf] = 1;
+						if((pixel & (0x80 >> xline)) !== 0) {
+							var gfxOffset = X + xline +((Y + yline) * 64);
+							if(s.gfx[gfxOffset] === 1) s.V[0xf] = 1;
 
 							s.gfx[gfxOffset] ^= 1;
 						}
@@ -414,10 +400,10 @@ var chip8 = function(){
 				}
 
 				s.dFlags.d = true;
-				s.dFlags.x = x;
-				s.dFlags.y = y;
+				s.dFlags.x = X;
+				s.dFlags.y = Y;
 				s.dFlags.w = 8;
-				s.dFlags.h = height;
+				s.dFlags.h = N;
 
 				break;
 
@@ -427,15 +413,15 @@ var chip8 = function(){
 					// EX9E: Skips the next instruction
     				// if the key stored in VX is pressed
 					case 0x009e:
-						logOpCode(opcode, "[kb]skip if vx pressed")
-						var keycode = (opcode & 0x0f00) >> 8;
-						var keystate = s.key[keycode];
+						logOpCode(opcode, "[kb]skip if vx pressed");
+						keycode = s.V[X];
+						keystate = s.key[keycode];
 
 						console.log("[kb]we are at pc: " + s.pc);
 						console.log("[kb]key["+ keycode +"] : " + keystate);
 						console.log("[kb]we should skip to:" + (s.pc+4));
 
-						if(keystate!=0){
+						if(keystate!==0){
 							s.pc += 4;
 							s.shouldRaisePC = false;
 
@@ -446,13 +432,13 @@ var chip8 = function(){
 					// EXA1: Skips the next instruction
     				// if the key stored in VX is not pressed
 					case 0x00a1:
-						logOpCode(opcode, "[kb]skip if vx not pressed")
-						var keycode = (opcode & 0x0f00) >> 8;
-						var keystate = s.key[keycode];
+						logOpCode(opcode, "[kb]skip if vx not pressed");
+						keycode = s.V[X];
+						keystate = s.key[keycode];
 
 						console.log("[kb]key["+ keycode +"] : " + keystate);
 
-						if(keystate==0){
+						if(keystate===0){
 							s.pc += 4;
 							s.shouldRaisePC = false;
 
@@ -473,8 +459,7 @@ var chip8 = function(){
 					case 0x0007:
 						logOpCode(opcode, "[tm]VX = delay");
 
-						var xoff = (opcode & 0x0f00) >> 8;
-						s.V[xoff] = s.delay_timer;
+						s.V[X] = s.delay_timer;
 
 						console.log("[tm]V["+xoff+"] = " +s.delay_timer);
 						break;
@@ -484,11 +469,10 @@ var chip8 = function(){
 						logOpCode(opcode, "[kb]wait for keypress");
 
 						s.shouldRaisePC = false;
-						var xoff = (opcode & 0x0f00) >> 8;
 						for(i = 0; i < s.key.length; i++){
-							if(s.key[i] == 1){
+							if(s.key[i] === 1){
 								s.shouldRaisePC = true;
-								s.V[xoff] = i;
+								s.V[X] = i;
 
 								console.log("[kb]found at: " + s.key[i]);
 								break;
@@ -500,8 +484,7 @@ var chip8 = function(){
 					case 0x0015:
 						logOpCode(opcode, "[tm]delay = VX");
 
-						var xoff = (opcode & 0x0f00) >> 8;
-						var VX = s.V[xoff];
+						VX = s.V[X];
 						s.delay_timer = VX;
 
 						console.log("[tm]delay = " + VX);
@@ -511,8 +494,7 @@ var chip8 = function(){
 					case 0x0018:
 						logOpCode(opcode, "[tm]sound = VX");
 
-						var xoff = (opcode & 0x0f00) >> 8;
-						var VX = s.V[xoff];
+						VX = s.V[X];
 						s.sound_timer = VX;
 
 						console.log("[tm]sound = " + VX);
@@ -522,8 +504,7 @@ var chip8 = function(){
 					case 0x001e:
 						logOpCode(opcode, "[mem]I += VX");
 
-						var xoff = (opcode & 0x0f00) >> 8;
-						var VX = s.V[xoff];
+						VX = s.V[X];
 						s.I += VX;
 						s.V[0xf] = 0;
 						if(s.I > 0xfff)
@@ -536,8 +517,7 @@ var chip8 = function(){
 					case 0x0029:
 						logOpCode(opcode, "[mem]I = font char");
 
-						var xoff = (opcode & 0x0f00) >> 8;
-						var VX = s.V[xoff];
+						VX = s.V[X];
 						s.I = VX * 5;
 
 						console.log("[mem]now I = " + s.I);
@@ -555,9 +535,8 @@ var chip8 = function(){
 					// FX55: starting at I = from V0 to VX
 					case 0x0055:
 						logOpCode(opcode, "[mem]starting at I = V0 to VX");
-						var xoff = (opcode & 0x0f00) >> 8;
 
-						for(i = 0; i<=xoff; i++){
+						for(i = 0; i<=X; i++){
 							s.memory[s.I + i] = s.V[i];
 						}
 
@@ -567,9 +546,8 @@ var chip8 = function(){
 					// FX65: starting at I = from V0 to VX
 					case 0x0065:
 						logOpCode(opcode, "[mem]V0 to VX = starting at I");
-						var xoff = (opcode & 0x0f00) >> 8;
 
-						for(i = 0; i<=xoff; i++){
+						for(i = 0; i<=X; i++){
 							s.V[i] = s.memory[s.I + i];
 						}
 
@@ -628,11 +606,11 @@ var chip8 = function(){
 	var logOpCode = function(opcode, extra ){
 		extra = (typeof extra !== 'undefined') ? extra : "";
 		console.log("pc: " + s.pc + " know opcode: " + opcode.toString(16).toUpperCase() + extra);
-	}
+	};
 
 	var logUnknowOp = function(opcode, pc){
 		console.log("Unknown opcode: " + opcode.toString(16).toUpperCase() + " at pc: "+ pc);
-	}
+	};
 
 	return chip8;
 
