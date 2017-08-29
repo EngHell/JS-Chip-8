@@ -100,4 +100,28 @@ describe("opcodes", function () {
         expect(c8.pc).toEqual(514);
     });
 
+    // 0x5XY0: skips instruction if VX==VY
+    it("0x5XY0: X = 6, Y = 1, VX = 10, VY = 10, pc will skip to 514+2", function () {
+        c8.memory[512] = 0x56;
+        c8.memory[513] = 0x10;
+        c8.V[6] = 10;
+        c8.V[1] = 10;
+
+        c8.emulateCycle();
+
+        expect(c8.pc).toEqual(516);
+    });
+
+    // 0x5XY0: skips instruction if VX==VY
+    it("0x5XY0: X = 7, Y = a, VX = 10, VY = 20, it won't skip, pc = 514", function () {
+        c8.memory[512] = 0x57;
+        c8.memory[513] = 0xa0;
+        c8.V[7] = 10;
+        c8.V[10] = 20;
+
+        c8.emulateCycle();
+
+        expect(c8.pc).toEqual(514);
+    });
+
 });
