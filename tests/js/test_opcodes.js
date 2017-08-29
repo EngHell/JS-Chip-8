@@ -1,7 +1,7 @@
 describe("opcodes", function () {
     var c8;
 
-    beforeEach(function (done) {
+    beforeEach(function () {
        c8 = chip8();
        c8.initialize();
     });
