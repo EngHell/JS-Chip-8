@@ -224,7 +224,7 @@ var chip8 = function(){
 						console.log("[mt]V["+ X +"]="+ VY);
 						break;
 
-					// 0x8XY1: sets VX to VX or VY
+					// 0x8XY1: sets VX to (VX or VY)
 					case 0x0001:
 						logOpCode(opcode, "[bo]VX=VX|VY");
 						VX = s.V[X];
@@ -237,7 +237,7 @@ var chip8 = function(){
 						console.log("[bo]" + OR.toString(2));
 						break;
 
-					// 0x8XY2: VX = VX and VY
+					// 0x8XY2: VX = (VX and VY)
 					case 0x0002:
 						logOpCode(opcode, "[bo]VX=VX&VY");
 						VX = s.V[X];
@@ -250,7 +250,7 @@ var chip8 = function(){
 						console.log("[bo]" + AND.toString(2));
 						break;
 
-					// 0x8XY2: VX = VX xor VY
+					// 0x8XY2: VX = (VX xor VY)
 					case 0x0003:
 						logOpCode(opcode, "[bo]VX=VX^VY");
 						VX = s.V[X];
