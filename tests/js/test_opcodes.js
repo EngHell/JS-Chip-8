@@ -35,4 +35,13 @@ describe("opcodes", function () {
         expect(c8.sp).toEqual(0);
         expect(c8.pc).toEqual(522);
     });
+
+    it("1NNN: jumps to adress NNN, pc should end at 520", function () {
+        c8.memory[512] = 0x12;
+        c8.memory[513] = 0x08;
+
+        c8.emulateCycle();
+
+        expect(c8.pc).toEqual(520);
+    });
 });
