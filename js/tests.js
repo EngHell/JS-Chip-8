@@ -22,7 +22,7 @@
         })
     };
 
-    test.opcode_0x00e0()
+    test.opcode_0x00e0();
 
     root.tests = tests;
 })();
