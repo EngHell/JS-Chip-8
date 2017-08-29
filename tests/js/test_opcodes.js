@@ -76,5 +76,28 @@ describe("opcodes", function () {
         c8.emulateCycle();
 
         expect(c8.pc).toEqual(514);
-    })
+    });
+
+    // 0x4XNN: skips next instruction if VX!=NN
+    it("0x4XNN: X is 5, VX is 20, NN 10, it will skip, so pc will be 514+2", function () {
+        c8.memory[512] = 0x45;
+        c8.memory[513] = 0x0a;
+        c8.V[5] = 20;
+
+        c8.emulateCycle();
+
+        expect(c8.pc).toEqual(516);
+    });
+
+    // 0x4XNN: skips next instruction if VX!=NN
+    it("0x4XNN: X is 5, VX is 10, NN 10, it won't skip, so pc will be 514", function () {
+        c8.memory[512] = 0x45;
+        c8.memory[513] = 0x0a;
+        c8.V[5] = 10;
+
+        c8.emulateCycle();
+
+        expect(c8.pc).toEqual(514);
+    });
+
 });
