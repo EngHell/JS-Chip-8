@@ -75,7 +75,7 @@ var chip8 = function(){
 
 	chip8.emulateCycle = function() {
         var s = self;
-        opcode = s.memory[s.pc] << 8 | s.memory[s.pc + 1];
+        var opcode = s.memory[s.pc] << 8 | s.memory[s.pc + 1];
         var i;
         var X = (opcode & 0x0f00) >> 8;
         var Y = (opcode & 0x00f0) >> 4;
