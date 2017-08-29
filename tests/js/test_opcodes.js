@@ -6,9 +6,7 @@ describe("opcodes", function () {
        c8.initialize();
     });
 
-    it("0x00e0 should clear gfx to all zeros", function () {
-        c8 = chip8();
-        c8.initialize();
+    it("0x00e0: should clear gfx to all zeros", function () {
         c8.gfx.forEach(function (t, number, ts) {
             ts[number] = 1;
         });
@@ -23,4 +21,6 @@ describe("opcodes", function () {
         expect(c8.gfx).toEqual(testGFX);
 
     });
+
+
 });
