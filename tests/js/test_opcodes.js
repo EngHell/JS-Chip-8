@@ -124,4 +124,14 @@ describe("opcodes", function () {
         expect(c8.pc).toEqual(514);
     });
 
+    // 6XNN: sets VX to NN
+    it("0x6XNN: X = 10, NN = 0x30, so V[10] = 0x30", function () {
+       c8.memory[512] = 0x6a;
+       c8.memory[513] = 0x30;
+
+       c8.emulateCycle();
+
+       expect(c8.V[10]).toEqual(0x30);
+    });
+
 });
