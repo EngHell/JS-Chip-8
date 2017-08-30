@@ -83,7 +83,7 @@ var chip8 = function(){
         var NN = opcode & 0x00ff;
         var N = opcode & 0x000f;
         var VX = s.V[X];
-        var VY = s.Y[Y];
+        var VY = s.V[Y];
         var keycode;
         var keystate;
         
@@ -208,7 +208,6 @@ var chip8 = function(){
 					case 0x0000:
 						logOpCode(opcode, "[mt]VX=VY");
 
-						VY = s.V[Y];
 						s.V[X] = VY;
 
 						console.log("[mt]V["+ X +"]="+ VY);
@@ -217,8 +216,7 @@ var chip8 = function(){
 					// 0x8XY1: sets VX to (VX or VY)
 					case 0x0001:
 						logOpCode(opcode, "[bo]VX=VX|VY");
-						VX = s.V[X];
-						VY = s.V[Y];
+
 						var OR = VX | VY;
 						s.V[X] = OR;
 
@@ -230,8 +228,7 @@ var chip8 = function(){
 					// 0x8XY2: VX = (VX and VY)
 					case 0x0002:
 						logOpCode(opcode, "[bo]VX=VX&VY");
-						VX = s.V[X];
-						VY = s.V[Y];
+
 						var AND = VX & VY;
 						s.V[X] = AND;
 
@@ -243,8 +240,7 @@ var chip8 = function(){
 					// 0x8XY2: VX = (VX xor VY)
 					case 0x0003:
 						logOpCode(opcode, "[bo]VX=VX^VY");
-						VX = s.V[X];
-						VY = s.V[Y];
+
 						var XOR = VX ^ VY;
 						s.V[X] = XOR;
 
@@ -268,9 +264,6 @@ var chip8 = function(){
 					case 0x0005:
 						logOpCode(opcode, "[mt]VX-=VY");
 
-						VX = s.V[X];
-						VY = s.V[Y];
-
 						s.V[0xf] = 1;
 						if(VY > VX)
 							s.V[0xf] = 0;
@@ -282,7 +275,7 @@ var chip8 = function(){
 					//8XY6: VF = lsb, vx = vx >> 1
 					case 0x0006:
 						logOpCode(opcode, "[bo]VX = VX>>1");
-						VY = s.V[Y];
+
 						var lsb = VY & 1;
 
 						s.V[X] = VY >> 1;
@@ -294,8 +287,6 @@ var chip8 = function(){
 					// 0x8XY7: vx=vy - vx, sets vf to 0 if borrow, 1 if not
 					case 0x0007:
 						logOpCode(opcode, "[mt]VX=VY-VX");
-						VX = s.V[X];
-						VY = s.V[Y];
 
 						s.V[0xf] = 1;
 						if(VY>VX)
@@ -309,7 +300,6 @@ var chip8 = function(){
 					case 0x000E:
 						logOpCode(opcode, "[bo]VX = VX<<1");
 
-						VY = s.V[X];
 						var msb = VY & 128;
 
 						s.V[X] = VY << 1;
