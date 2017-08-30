@@ -82,8 +82,8 @@ var chip8 = function(){
         var NNN = opcode & 0x0fff;
         var NN = opcode & 0x00ff;
         var N = opcode & 0x000f;
-        var VX;
-        var VY;
+        var VX = s.V[X];
+        var VY = s.Y[Y];
         var keycode;
         var keystate;
         
@@ -147,9 +147,6 @@ var chip8 = function(){
 			// 0x3XNN: skips next instruction if VX==NN
 			case 0x3000:
 				logOpCode(opcode, "[cf]skip VX==NN");
-
-				VX = s.V[X];
-
 				console.log("[cf]VX: " + VX + " NN: "+ NN);
 
 				if(VX === NN){
@@ -163,9 +160,6 @@ var chip8 = function(){
 			// 0x4XNN: skips next instruction if VX!=NN
 			case 0x4000:
 				logOpCode(opcode, "[cf]skip !=");
-
-				VX = s.V[X];
-
 				console.log("[cf]VX: " + VX + " NN: "+ NN);
 
 				if(VX !== NN){
@@ -179,10 +173,6 @@ var chip8 = function(){
 			// 0x5XY0: skips instruction if VX==VY
 			case 0x5000:
 				logOpCode(opcode, "[cf]skip VX==VY");
-
-				VX = s.V[(opcode & 0x0f00) >> 8];
-				VY = s.V[(opcode & 0x00f0) >> 4];
-
 				console.log("[cf]VX: " + VX + " VY: "+ VY);
 
 				if(VX === VY){
