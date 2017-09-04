@@ -52,4 +52,30 @@ describe("opcodes 0x8XXX", function () {
 
         expect(c8.V[1]).toEqual(parseInt("00010011",2));
     });
+
+    // 0x8XY4: vx += vy, sets vf to 1 if carry, 0 if not
+    it("0x8XY4: X:5, Y:6, VX:254, VY:1, there won't be a carry", function () {
+        c8.memory[512] = 0x85;
+        c8.memory[513] = 0x64;
+        c8.V[5] = 254;
+        c8.V[6] = 1;
+
+        c8.emulateCycle();
+
+        expect(c8.V[0xf]).toEqual(0);
+        expect(c8.V[5]).toEqual(255);
+    });
+
+    // 0x8XY4: vx += vy, sets vf to 1 if carry, 0 if not
+    it("0x8XY4: X:5, Y:6, VX:255, VY:1, there will be a carry", function () {
+        c8.memory[512] = 0x85;
+        c8.memory[513] = 0x64;
+        c8.V[5] = 255;
+        c8.V[6] = 1;
+
+        c8.emulateCycle();
+
+        expect(c8.V[0xf]).toEqual(1);
+        expect(c8.V[5]).toEqual(0);
+    });
 });
