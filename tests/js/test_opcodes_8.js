@@ -78,4 +78,37 @@ describe("opcodes 0x8XXX", function () {
         expect(c8.V[0xf]).toEqual(1);
         expect(c8.V[5]).toEqual(0);
     });
+
+    // 0x8XY5: vx -= vy, sets vf to 0 if borrow, 1 if not
+    it("0x8XY5: X:1, Y:5, VX: 10, VY: 5: VX->5, VF->1", function () {
+        c8.memory[512] = 0x81;
+        c8.memory[513] = 0x55;
+        c8.V[1] = 10;
+        c8.V[5] = 5;
+
+        c8.emulateCycle();
+
+        expect(c8.V[1]).toEqual(5);
+        expect(c8.V[0xf]).toEqual(1);
+    });
+
+    // 0x8XY5: vx -= vy, sets vf to 0 if borrow, 1 if not
+    it("0x8XY5: X:1, Y:5, VX: 0, VY: 1: VX->128, VF->0", function () {
+        c8.memory[512] = 0x81;
+        c8.memory[513] = 0x55;
+        c8.V[1] = 0;
+        c8.V[5] = 1;
+
+        c8.emulateCycle();
+
+        expect(c8.V[1]).toEqual(255);
+        expect(c8.V[0xf]).toEqual(0);
+    });
 });
+
+
+
+
+
+
+
