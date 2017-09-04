@@ -252,12 +252,12 @@ var chip8 = function(){
 					// 0x8XY4: vx += vy, sets vf to 1 if carry, 0 if not
 					case 0x0004:
 						logOpCode(opcode, "[mt]VX+=VY");
-						if(s.V[(opcode & 0x00f0) >> 4] > (0xff - s.V[(opcode & 0x0f00) >> 8])){
+						if(VY > (0xff - VX)){
 							s.V[0xf] = 1;
 						} else {
 							s.V[0xf] = 0;
 						}
-						s.V[(opcode & 0x0f00) >> 8] += s.V[(opcode & 0x00f0) >> 4];
+						s.V[X] += s.V[Y];
 						break;
 
 					// 0x8XY5: vx -= vy, sets vf to 0 if borrow, 1 if not
