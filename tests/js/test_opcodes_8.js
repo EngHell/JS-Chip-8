@@ -156,7 +156,7 @@ describe("opcodes 0x8XXX", function () {
 
         expect(c8.V[5]).toEqual(254);
         expect(c8.V[0xf]).toEqual(128);
-    })
+    });
 });
 
 
