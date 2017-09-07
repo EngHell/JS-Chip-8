@@ -296,16 +296,17 @@ var chip8 = function(){
 						console.log("[mt]VY: " + VY + " VX: " + VX);
 						break;
 
-						//8XYE: VF = msb, vx = VY << 1
+						//8XYE: VF = msb, vx = VX << 1
+						// GOTTA add a simulation for the quirksss
 					case 0x000E:
 						logOpCode(opcode, "[bo]VX = VX<<1");
 
-						var msb = VY & 128;
+						var msb = VX & 128;
 
-						s.V[X] = VY << 1;
+						s.V[X] = VX << 1;
 						s.V[0xf] = msb;
 
-						console.log("[bo]VX:" + VY + "<<1: " + (VY << 1).toString(2) + " msb: " + msb );
+						console.log("[bo]VX:" + VX + "<<1: " + (VX << 1).toString(2) + " msb: " + msb );
 						break;
 
 					default:
