@@ -289,7 +289,7 @@ var chip8 = function(){
 						logOpCode(opcode, "[mt]VX=VY-VX");
 
 						s.V[0xf] = 1;
-						if(VY>VX)
+						if(VX>VY)
 							s.V[0xf] = 0;
 
 						s.V[X] = VY - VX;
