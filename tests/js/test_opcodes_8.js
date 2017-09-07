@@ -115,7 +115,21 @@ describe("opcodes 0x8XXX", function () {
 
         expect(c8.V[5]).toEqual(0xff >> 1);
         expect(c8.V[0xf]).toEqual(1);
-    })
+    });
+
+    // 0x8XY7: vx=vy - vx, sets vf to 0 if borrow, 1 if not
+    it("0x8XY7: X:6, Y:1, VX:10, VY:20, VX->10, VF->1", function () {
+       c8.memory[512] = 0x86;
+       c8.memory[513] = 0x17;
+
+       c8.V[6] = 10;
+       c8.V[1] = 20;
+
+       c8.emulateCycle();
+
+       expect(c8.V[6]).toEqual(10);
+       expect(c8.V[0xf]).toEqual(1);
+    });
 });
 
 
