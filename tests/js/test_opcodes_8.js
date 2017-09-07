@@ -144,6 +144,19 @@ describe("opcodes 0x8XXX", function () {
         expect(c8.V[6]).toEqual(255);
         expect(c8.V[0xf]).toEqual(0);
     });
+
+    //8XYE: VF = msb, VX = VX << 1
+    it("0x8XYE: X:5, Y:1, X:0xff, VX->(254), VF->1", function () {
+        c8.memory[512] = 0x85;
+        c8.memory[513] = 0x1e;
+
+        c8.V[5] = 0xff;
+
+        c8.emulateCycle();
+
+        expect(c8.V[5]).toEqual(254);
+        expect(c8.V[0xf]).toEqual(128);
+    })
 });
 
 
