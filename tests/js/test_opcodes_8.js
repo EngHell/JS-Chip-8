@@ -157,6 +157,15 @@ describe("opcodes 0x8XXX", function () {
         expect(c8.V[5]).toEqual(254);
         expect(c8.V[0xf]).toEqual(128);
     });
+
+    it("unknown 0x8XY? op code", function () {
+        c8.memory[512] = 0x86;
+        c8.memory[513] = 0x1a;
+
+        c8.emulateCycle();
+
+        // i just made this to have coverage on that case branch..
+    })
 });
 
 
