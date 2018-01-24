@@ -7,9 +7,9 @@ describe("opcodes from 0x0000 to 0x7000", function () {
     });
 
     it("0x00e0: should clear gfx to all zeros", function () {
-        c8.gfx.forEach(function (t, number, ts) {
-            ts[number] = 1;
-        });
+        for(var i = 0; i < c8.gfx.length; i++){
+            c8.gfx[i] = 0;
+        }
 
         c8.memory[512] = 0x00;
         c8.memory[513] = 0xe0;
