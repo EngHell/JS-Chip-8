@@ -26,5 +26,16 @@ describe("opcodes from 0x9XXX to 0xCXXX", function () {
         c8.emulateCycle();
 
         expect(c8.pc).toEqual(512+2+2);
-    })
+    });
+
+    it("ANNN: NNN=255 so I should be 0x255",function(){
+        c8.memory[512] = 0xA2;
+        c8.memory[513] = 0x55;
+
+        c8.emulateCycle();
+
+        expect(c8.I).toEqual(0x255);
+    });
+
+
 });
