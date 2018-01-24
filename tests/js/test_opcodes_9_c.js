@@ -37,5 +37,15 @@ describe("opcodes from 0x9XXX to 0xCXXX", function () {
         expect(c8.I).toEqual(0x255);
     });
 
+    it("BNNN: NNN=255, V0=10. So pc: 0x255 + 10", function() {
+        c8.memory[512] = 0xb2;
+        c8.memory[513] = 0x55;
+        c8.V[0] = 10;
+
+        c8.emulateCycle();
+
+        expect(c8.pc).toEqual(0x255 + 10);
+    })
+
 
 });
