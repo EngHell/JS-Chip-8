@@ -45,7 +45,18 @@ describe("opcodes from 0x9XXX to 0xCXXX", function () {
         c8.emulateCycle();
 
         expect(c8.pc).toEqual(0x255 + 10);
-    })
+    });
+
+    it("CXNN: X=a, NN=0x0f; So Va=rand()& NN", function(){
+        // not much to test there but will try
+        c8.memory[512] = 0xca;
+        c8.memory[513] = 0x0f;
+
+        c8.emulateCycle();
+
+        expect(c8.pc).toEqual(514);
+        expect(c8.V[0xa] & 0xf0).toEqual(0x0);
+    });
 
 
 });
