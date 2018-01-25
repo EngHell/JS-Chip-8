@@ -8,7 +8,7 @@ describe("opcode D", function() {
 
 
    it("DXYN: X:1,Y:0,N:3,V1:0,V0:0; then the gfx will be filled with the sprite at coords (0,0), check comments to see the sprite",function(){
-       // those will start at pc 550
+       // those will start at pc 520
        // 00111100
        // 01100110
        // 00111100
@@ -32,7 +32,36 @@ describe("opcode D", function() {
 
        expect(c8.I).toEqual(520);
 
+       expect(c8.V[0xf]).toEqual(0);
+
        for(var y = yStart; y < 3; y++){
+           for(var x = xStart; x < 8; x++){
+               gfxOffset = xStart + x + ((yStart + y) * 64);
+               expect(c8.gfx[gfxOffset]).toEqual( (c8.memory[c8.I + y] & (128 >> x)) !== 0 ? 1 : 0 )
+           }
+       }
+
+       c8.pc = 512;
+       c8.memory[513] = 0x01;
+       c8.memory[520] = parseInt("00111100",2);
+       // those will start at pc 520
+       // and now it will be
+       // 00111100
+       //
+       // then
+       // 00000000
+       // 01100110
+       // 00111100
+
+       c8.emulateCycle();
+
+       expect(c8.I).toEqual(520);
+
+       expect(c8.V[0xf]).toEqual(1);
+
+       c8.memory[520] = parseInt("00000000", 2);
+
+       for(var y = yStart; y < 1; y++){
            for(var x = xStart; x < 8; x++){
                gfxOffset = xStart + x + ((yStart + y) * 64);
                expect(c8.gfx[gfxOffset]).toEqual( (c8.memory[c8.I + y] & (128 >> x)) !== 0 ? 1 : 0 )
