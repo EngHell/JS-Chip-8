@@ -362,7 +362,9 @@ var chip8 = function(){
 			// DXYN draws sprite
 			case 0xd000:
 				logOpCode(opcode, "[gfx]!!!Fucking draw!!!");
-				console.log("[gfx]I: "+ s.I +" x: " + X + " y: " + Y + " h: " + N);
+				var xStart = s.V[X];
+				var yStart = s.V[Y];
+				console.log("[gfx]I: "+ s.I +" x: " + xStart + " y: " + yStart + " h: " + N);
 				var pixel;
 
 				s.V[0xF] = 0;
@@ -371,7 +373,7 @@ var chip8 = function(){
 
 					for(var xline = 0; xline < 8; xline++){
 						if((pixel & (128 >> xline)) !== 0) {
-							var gfxOffset = X + xline +((Y + yline) * 64);
+							var gfxOffset = xStart + xline +((yStart + yline) * 64);
 							if(s.gfx[gfxOffset] === 1) s.V[0xf] = 1;
 
 							s.gfx[gfxOffset] ^= 1;
@@ -380,8 +382,8 @@ var chip8 = function(){
 				}
 
 				s.dFlags.d = true;
-				s.dFlags.x = X;
-				s.dFlags.y = Y;
+				s.dFlags.x = xStart;
+				s.dFlags.y = yStart;
 				s.dFlags.w = 8;
 				s.dFlags.h = N;
 
