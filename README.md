@@ -2,9 +2,10 @@
 Chip-8 emulator written in javascript, can load localfiles direct to the browser memory using the FILE api
 
 ## Usage
-1. Go to js and open index.html.
-2. Chose a rom file.
-3. Click load rom.
+1. Unzip chip8-js.zip ([Download](#download))
+2. Open index.html.
+3. Chose a rom file
+4. Click load rom
 
 ## Keypad bindings
 ```
