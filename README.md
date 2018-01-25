@@ -22,4 +22,4 @@ Keypad                   Keyboard
 ```
 
 ## Download
-Please get the latest release from [here](https://github.com/EngHell/JS-Chip-8/releases/latest).
+Please get the latest release from [here](https://github.com/EngHell/JS-Chip-8/releases/).
