@@ -374,9 +374,8 @@ var chip8 = function(){
 					for(var xline = 0; xline < 8; xline++){
 						if((pixel & (128 >> xline)) !== 0) {
 							var gfxOffset = xStart + xline +((yStart + yline) * 64);
-							if(s.gfx[gfxOffset] === 1) s.V[0xf] = 1;
-
-							s.gfx[gfxOffset] ^= 1;
+                            s.gfx[gfxOffset] ^= 1;
+							if(s.gfx[gfxOffset] === 0) s.V[0xf] = 1;
 						}
 					}
 				}
