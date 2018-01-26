@@ -100,4 +100,26 @@ describe("opcodes EWWW", function(){
         expect(c8.pc[514]);
     });
 
+    it("EXA1: V2:1, KEY PRESSED: so does not skip pc to 516", function(){
+        c8.memory[512] = 0xe2;
+        c8.memory[513] = 0xa1;
+        c8.V[2] = 1;
+        c8.key[1] = 1;
+
+        c8.emulateCycle();
+
+        expect(c8.pc[514]);
+    });
+
+    it("EXA1: V2:1, KEY NOT PRESSED: so does skip pc to 516", function(){
+        c8.memory[512] = 0xe2;
+        c8.memory[513] = 0xa1;
+        c8.V[2] = 1;
+        c8.key[1] = 0;
+
+        c8.emulateCycle();
+
+        expect(c8.pc[516]);
+    });
+
 });
