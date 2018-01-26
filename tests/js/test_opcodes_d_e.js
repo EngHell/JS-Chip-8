@@ -69,3 +69,35 @@ describe("opcode D", function() {
        }
    });
 });
+
+describe("opcodes EWWW", function(){
+    var c8;
+
+    beforeEach(function () {
+        c8 = chip8();
+        c8.initialize();
+    });
+
+   it("EX9E: V2:1, KEY PRESED: so skips pc to 516", function(){
+      c8.memory[512] = 0xe2;
+      c8.memory[513] = 0x9e;
+      c8.V[2] = 1;
+      c8.key[1] = 1;
+
+      c8.emulateCycle();
+
+      expect(c8.pc[516]);
+   });
+
+    it("EX9E: V2:1, KEY IS NOT PRESSED: so pc goes 514", function(){
+        c8.memory[512] = 0xe2;
+        c8.memory[513] = 0x9e;
+        c8.V[2] = 1;
+        c8.key[1] = 0;
+
+        c8.emulateCycle();
+
+        expect(c8.pc[514]);
+    });
+
+});
