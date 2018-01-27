@@ -6,6 +6,7 @@ describe("OPCodes FWWW",function(){
     });
 
    describe("FX07: SETS VX to delay timer", function(){
+
        it("Delay timer = 10 then V7 = 10",function(){
            c8.memory[512] = 0xf7;
            c8.memory[513] = 0x07;
@@ -17,5 +18,28 @@ describe("OPCodes FWWW",function(){
        })
    }) ;
 
+   describe("FX0A: Pauses operation til key press and VX = key", function(){
+
+       it("Key(5) is pressed then pc = 514 and V7 = 5", function(){
+          c8.memory[512] = 0xf7;
+          c8.memory[513] = 0x0a;
+          c8.key[5] = 1;
+
+          c8.emulateCycle();
+
+          expect(c8.V[7]).toEqual(5);
+          expect(c8.pc).toEqual(514)
+       });
+
+       it("No key is pressed then pc = 512", function () {
+           c8.memory[512] = 0xf7;
+           c8.memory[513] = 0x0a;
+
+           c8.emulateCycle();
+
+           expect(c8.V[7]).toEqual(0);
+           expect(c8.pc).toEqual(512);
+       })
+   })
 
 });
