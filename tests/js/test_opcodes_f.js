@@ -52,6 +52,12 @@ describe("OPCodes FWWW",function(){
           c8.emulateCycle();
 
           expect(c8.delay_timer).toEqual(10);
+          expect(c8.pc).toEqual(514);
+
+          c8.emulateCycle();
+
+          expect(c8.delay_timer).toEqual(9);
+          expect(c8.pc).toEqual(516);
        });
    });
 
@@ -66,6 +72,11 @@ describe("OPCodes FWWW",function(){
 
             expect(c8.sound_timer).toEqual(8);
             expect(c8.pc).toEqual(514);
+
+            c8.emulateCycle();
+
+            expect(c8.sound_timer).toEqual(7);
+            expect(c8.pc).toEqual(516);
         });
     });
 
