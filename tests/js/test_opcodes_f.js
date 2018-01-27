@@ -55,4 +55,18 @@ describe("OPCodes FWWW",function(){
        });
    });
 
+    describe("FX18: Sets sound_timer to VX", function(){
+
+        it("V3=8 then sound_timer = 8", function(){
+            c8.memory[512] = 0xf3;
+            c8.memory[513] = 0x18;
+            c8.V[3] = 8;
+
+            c8.emulateCycle();
+
+            expect(c8.sound_timer).toEqual(8);
+            expect(c8.pc).toEqual(514);
+        });
+    });
+
 });
