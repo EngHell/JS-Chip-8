@@ -39,7 +39,7 @@ describe("OPCodes FWWW",function(){
 
            expect(c8.V[7]).toEqual(0);
            expect(c8.pc).toEqual(512);
-       })
-   })
+       });
+   });
 
 });
