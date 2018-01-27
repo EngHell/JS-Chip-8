@@ -42,4 +42,17 @@ describe("OPCodes FWWW",function(){
        });
    });
 
+   describe("FX15: Sets delay_timer to VX", function(){
+
+       it("Va=10 then delay timer = 10", function(){
+          c8.memory[512] = 0xfa;
+          c8.memory[513] = 0x15;
+          c8.V[0xa] = 10;
+
+          c8.emulateCycle();
+
+          expect(c8.delay_timer).toEqual(10);
+       });
+   });
+
 });
