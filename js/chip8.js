@@ -86,6 +86,12 @@ var chip8 = function(){
         var VY = s.V[Y];
         var keycode;
         var keystate;
+
+        if(s.delay_timer > 0)
+            --s.delay_timer;
+
+        if(s.sound_timer > 0)
+            --s.sound_timer;
         
 		console.log();
 
