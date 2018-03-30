@@ -125,6 +125,29 @@ describe("OPCodes FWWW",function(){
             expect(c8.memory[c8.I+1]).toEqual(3);
             expect(c8.memory[c8.I+2]).toEqual(0);
         })
+    });
+
+    describe("FX55, sets starting at memory[I] all values from V0 to Vx", function() {
+        it("I = 520, X = 5, V0 to V5 => 0 - 5, so memory[I] - memory[I+5] -> 0 - 5", function(){
+            c8.memory[512] = 0xf5;
+            c8.memory[513] = 0x55;
+
+            for(var i = 0; i <= 5; i++){
+                c8.V[i] = i;
+            }
+
+            c8.I = 520;
+
+            c8.emulateCycle();
+
+            var I = c8.I - 6;
+
+            expect(c8.I).toEqual(520 + 6);
+
+            for(i = 0; i <= 5; i++){
+                expect(c8.memory[I + i]).toEqual(c8.V[i]);
+            }
+        })
     })
 
 });
