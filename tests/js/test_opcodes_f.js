@@ -110,4 +110,21 @@ describe("OPCodes FWWW",function(){
        }
     });
 
+    describe("FX33: decimal representation at I and I+1 then I+2 of Vx", function(){
+        it("I = 200, V4=230, so I = 2, I+1 = 3, I+2 = 0", function(){
+            c8.memory[512] = 0xf4;
+            c8.memory[513] = 0x33;
+
+            c8.V[4] = 230;
+            c8.I = 520;
+
+            c8.emulateCycle();
+
+            expect(c8.I).toEqual(520);
+            expect(c8.memory[c8.I]).toEqual(2);
+            expect(c8.memory[c8.I+1]).toEqual(3);
+            expect(c8.memory[c8.I+2]).toEqual(0);
+        })
+    })
+
 });
