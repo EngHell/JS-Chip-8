@@ -513,10 +513,11 @@ var chip8 = function(){
 					// FX33: too long to be described there check the chip8
 					// instruction set.
 					case 0x0033:
+						VX = s.V[X];
 						logOpCode(opcode);
-						s.memory[s.I] = Math.floor(s.V[(opcode & 0x0f00 >> 8)] / 100);
-						s.memory[s.I+1] = Math.floor(s.V[(opcode & 0x0f00 >> 8)] / 10) % 10;
-						s.memory[s.I+2] = (s.V[(opcode & 0x0f00 >> 8)] % 100) % 10;
+						s.memory[s.I] = Math.floor(VX / 100);
+						s.memory[s.I+1] = Math.floor(VX / 10) % 10;
+						s.memory[s.I+2] = (VX % 100) % 10;
 						break;
 
 					// FX55: starting at I = from V0 to VX
