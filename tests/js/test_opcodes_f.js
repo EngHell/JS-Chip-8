@@ -95,4 +95,19 @@ describe("OPCodes FWWW",function(){
         });
     });
 
+    describe("FX29: sets I to the position of the font char specified at Vx", function(){
+       for(var i = 0; i <= 0xf; i++){
+           it("V4 = F, then I = 0xf * 5", function(){
+               c8.memory[512] = 0xf4;
+               c8.memory[513] = 0x29;
+               c8.V[4] = 0xf;
+
+               c8.emulateCycle();
+
+               expect(c8.I).toEqual( 0xf * 5);
+               expect(c8.pc).toEqual(514);
+           })
+       }
+    });
+
 });
