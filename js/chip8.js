@@ -600,6 +600,10 @@ var chip8 = function(){
 		console.log("Unknown opcode: " + opcode.toString(16).toUpperCase() + " at pc: "+ pc);
 	};
 
+	logOpCode = function() {};
+
+	logUnknowOp = function(){};
+
 	return chip8;
 
 };
