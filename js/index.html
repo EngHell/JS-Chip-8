@@ -11,11 +11,21 @@
 			<li><a id="stop" href="#">Stop Emulation</a></li>
 		</ul>
 		<canvas id="screen" width="256" height="128" style="border: 1px solid black;"></canvas>
-		<ul class="controls debug-controls clear">
+		<ul class="controls debug-controls clearfix">
             <li><a id="continue" href="#">Continue</a></li>
             <li><a id="pause" href="#">Pause</a></li>
             <li><a id="next" href="#">Next</a></li>
         </ul>
+        <table id="debugger">
+            <thead>
+            <tr>
+                <th>Address</th>
+                <th>OpCode</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
 		<script src="chip8.js"></script>
 		<script src="main.js"></script>
 	</body>
