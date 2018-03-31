@@ -2,14 +2,20 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
 	</head>
 	<body>
 		<input type="file" id="rom" name="rom" />
-		<a id="load" href="#">Load Rom</a>
-		<a id="stop" href="#">Stop</a>
-		<br />
+		<ul class="controls load-controls clearfix">
+			<li><a id="load" href="#">Start Emulation</a></li>
+			<li><a id="stop" href="#">Stop Emulation</a></li>
+		</ul>
 		<canvas id="screen" width="256" height="128" style="border: 1px solid black;"></canvas>
-		
+		<ul class="controls debug-controls clear">
+            <li><a id="continue" href="#">Continue</a></li>
+            <li><a id="pause" href="#">Pause</a></li>
+            <li><a id="next" href="#">Next</a></li>
+        </ul>
 		<script src="chip8.js"></script>
 		<script src="main.js"></script>
 	</body>
