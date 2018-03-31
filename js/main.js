@@ -64,7 +64,7 @@ var tick = function(){
 	
 	if(c8.pc > (c8.romSize + 0x200)){
 		console.log("exiting execution since theres no thing to be accesed outside of rom memory");
-		stopPauseEmulation();
+		pauseEmulation();
 	}
 };
 
@@ -72,7 +72,7 @@ var tick = function(){
 /*******************************************************************************
  * Emulation control functions
  *******************************************************************************/
-var stopPauseEmulation = function() {
+var pauseEmulation = function() {
     clearInterval(control.intervalId);
     control.intervalId = 0;
 };
@@ -138,7 +138,7 @@ draw.draw = function() {
  * Button bindings
  *******************************************************************************/
 document.getElementById("stop").onclick = function(){
-    stopPauseEmulation();
+    pauseEmulation();
     draw.clearScren();
     c8.initialized = false;
 };
@@ -172,7 +172,7 @@ document.getElementById("continue").onclick = function() {
 
 document.getElementById("pause").onclick = function() {
 	if(c8.initialized && control.intervalId !== 0){
-		stopPauseEmulation();
+		pauseEmulation();
 	}
 };
 
