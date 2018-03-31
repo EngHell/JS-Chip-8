@@ -55,7 +55,7 @@ var tick = function(){
 	
 	if(c8.pc > (c8.romSize + 0x200)){
 		console.log("exiting execution since theres no thing to be accesed outside of rom memory");
-		clearInterval(control.intervalId);
+		stopPauseEmulation();
 	}
 };
 
@@ -70,13 +70,26 @@ document.getElementById("load").onclick = function(){
     var element = document.getElementById("rom");
 	c8.loadRom(element);
 	
-	control.intervalId = setInterval(tick, 1000 / control.fps);
+	if(control.intervalId === 0){
+        startEmulation();
+    } else {
+	    alert("The emulation is already running");
+    }
 	
 };
 
 // stops emulation
+var stopPauseEmulation = function() {
+    clearInterval(control.intervalId);
+    control.intervalId = 0;
+};
+
+var startEmulation = function() {
+    control.intervalId = setInterval(tick, 100/ control.fps);
+};
+
 document.getElementById("stop").onclick = function(){
-	clearInterval(control.intervalId)
+	stopPauseEmulation();
 };
 
 // Canvas creation
