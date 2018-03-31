@@ -67,7 +67,8 @@ document.getElementById("load").onclick = function(){
 	
 	// initialize things
 	c8.initialize();
-	c8.loadRom();
+    var element = document.getElementById("rom");
+	c8.loadRom(element);
 	
 	control.intervalId = setInterval(tick, 1000 / control.fps);
 	

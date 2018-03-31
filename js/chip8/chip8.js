@@ -565,13 +565,13 @@ var chip8 = function(){
 	*
 	*
 	*/
-	chip8.loadRom = function() {
+	chip8.loadRom = function(element) {
 		s = self;
 		if(!s.initialized) {
 			alert("first initialize the instace of chip8");
 			return;
 		}
-		var file = document.getElementById("rom").files;
+		var file = element.files;
 		console.log("Rom name: " + file[0].name);
 		var view;
 		if(file.length < 1) {
