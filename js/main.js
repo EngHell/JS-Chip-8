@@ -158,7 +158,7 @@ document.getElementById("load").onclick = function(){
     // initialize things
     c8.initialize();
     var element = document.getElementById("rom");
-    c8.loadRom(element);
+    c8.loadRom(element, postLoadRomFunction);
 
     if(control.intervalId === 0){
         startEmulation();
