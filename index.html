@@ -1,32 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+
+		<title>Chip8.js</title>
 	</head>
 	<body>
-		<input type="file" id="rom" name="rom" />
-		<ul class="controls load-controls clearfix">
-			<li><a id="load" href="#">Start Emulation</a></li>
-			<li><a id="stop" href="#">Stop Emulation</a></li>
-		</ul>
-		<canvas id="screen" width="256" height="128" style="border: 1px solid black;"></canvas>
-		<ul class="controls debug-controls clearfix">
-            <li><a id="continue" href="#">Continue</a></li>
-            <li><a id="pause" href="#">Pause</a></li>
-            <li><a id="next" href="#">Next</a></li>
-        </ul>
-        <table id="debugger">
-            <thead>
-            <tr>
-                <th>Address</th>
-                <th>OpCode</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-		<script src="js/chip8/chip8.js"></script>
-		<script src="js/main.js"></script>
+		<div class="container">
+			<input type="file" id="rom" name="rom" />
+			<div class="btn-toolbar" role="toolbar" aria-label="Emulation Toolbar">
+				<div class="btn-group" role="group" aria-label="Emulation Controls">
+					<button id="load" type="button" class="btn btn-secondary">Start Emulation</button>
+					<button id="stop" type="button" class="btn btn-secondary">Stop Emulation</button>
+				</div>
+			</div>
+			<canvas id="screen" width="256" height="128" style="border: 1px solid black;"></canvas>
+			<div class="btn-toolbar" role="toolbar" aria-label="Debugger Toolbar">
+				<div class="btn-group" role="group" aria-label="Debugger Controls">
+					<button id="continue" type="button" class="btn btn-secondary">Continue</button>
+					<button id="pause" type="button" class="btn btn-secondary">Pause</button>
+					<button id="next" type="button" class="btn btn-secondary">Next</button>
+				</div>
+			</div>
+			<table id="debugger" class="table table-striped table-sm table-hover">
+				<thead class="thead-dark">
+				<tr>
+					<th scope="col">Address</th>
+					<th scope="col">OpCode</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<th scope="row">1</th>
+					<td>0xNNNE</td>
+				</tr>
+				<tr>
+					<th scope="row">2</th>
+					<td>0xNNNE</td>
+				</tr>
+				</tbody>
+			</table>
+			<script src="js/chip8/chip8.js"></script>
+			<script src="js/main.js"></script>
+
+			<script src="js/jquery-3.3.1.slim.min.js"></script>
+			<script src="js/popper.min.js"></script>
+			<script src="js/bootstrap.min.js"></script>
+		</div>
 	</body>
 </html>
