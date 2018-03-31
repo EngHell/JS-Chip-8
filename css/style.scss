@@ -19,8 +19,6 @@
 
 }
 
-.clearfix::after {
-  content: '';
-  clear: both;
-  display: table;
+#debugger {
+  max-height:500px;
 }
