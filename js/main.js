@@ -141,6 +141,14 @@ document.getElementById("stop").onclick = function(){
     stopPauseEmulation();
 };
 
+var postLoadRomFunction = function() {
+    if(control.intervalId === 0){
+        startEmulation();
+    } else {
+        alert("The emulation is already running");
+    }
+};
+
 // load the room and starts the emulation
 document.getElementById("load").onclick = function(){
     console.clear();

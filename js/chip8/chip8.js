@@ -565,7 +565,7 @@ var chip8 = function(){
 	*
 	*
 	*/
-	chip8.loadRom = function(element) {
+	chip8.loadRom = function(element, callback) {
 		s = self;
 		if(!s.initialized) {
 			alert("first initialize the instace of chip8");
@@ -593,6 +593,7 @@ var chip8 = function(){
 				s.memory[0x200 + i] = view.getUint8(i);
 			}
 			console.log("finished rom load to memory, loaded: "+ view.byteLength + " bytes");
+			callback();
 		};
 		reader.readAsArrayBuffer(file[0]);
 	};
