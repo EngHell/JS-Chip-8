@@ -51,7 +51,7 @@ var tick = function(){
 	c8.emulateCycle();
 	
 	if(c8.dFlags.d)
-		draw.draw();
+		requestAnimationFrame(draw.draw);
 	
 	if(c8.pc > (c8.romSize + 0x200)){
 		console.log("exiting execution since theres no thing to be accesed outside of rom memory");
