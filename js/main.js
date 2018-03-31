@@ -1,4 +1,6 @@
-// some setup
+/*******************************************************************************
+ * initial setup
+ *******************************************************************************/
 var c8 = chip8();
 var ctx;
 var control = {
@@ -6,6 +8,10 @@ var control = {
 	intervalId: 0
 };
 
+
+/*******************************************************************************
+ * Keystrokes functions
+ *******************************************************************************/
 // key map
 // Keypad                   Keyboard
 // +-+-+-+-+                +-+-+-+-+
@@ -43,7 +49,10 @@ var keyUp = function(e){
 window.addEventListener("keydown", keyDown, false);
 window.addEventListener("keyup", keyUp, false);
 
-// our callback function that handles the udpates
+
+/*******************************************************************************
+ * Emulation loop functions
+ *******************************************************************************/
 var tick = function(){
 	// the keys are event bounded so no need for special code there
 	// look for window.addEventListener("keydown", keyDown, false);
@@ -59,26 +68,10 @@ var tick = function(){
 	}
 };
 
-// load the room and starts the emulation
-document.getElementById("load").onclick = function(){
-	console.clear();
-	//Set up render system and register input callbacks
-	initGFX();
-	
-	// initialize things
-	c8.initialize();
-    var element = document.getElementById("rom");
-	c8.loadRom(element);
-	
-	if(control.intervalId === 0){
-        startEmulation();
-    } else {
-	    alert("The emulation is already running");
-    }
-	
-};
 
-// stops emulation
+/*******************************************************************************
+ * Emulation control functions
+ *******************************************************************************/
 var stopPauseEmulation = function() {
     clearInterval(control.intervalId);
     control.intervalId = 0;
@@ -88,11 +81,13 @@ var startEmulation = function() {
     control.intervalId = setInterval(tick, 100/ control.fps);
 };
 
-document.getElementById("stop").onclick = function(){
-	stopPauseEmulation();
-};
 
-// Canvas creation
+/*******************************************************************************
+ * GFX functions
+ *******************************************************************************/
+/**
+ * Initializes our canvas context
+ */
 var initGFX = function() {
 	var c = document.getElementById("screen");
 	ctx = c.getContext("2d");
@@ -138,6 +133,37 @@ draw.draw = function() {
 	s.dFlags.d = false;
 };
 
+
+/*******************************************************************************
+ * Button bindings
+ *******************************************************************************/
+document.getElementById("stop").onclick = function(){
+    stopPauseEmulation();
+};
+
+// load the room and starts the emulation
+document.getElementById("load").onclick = function(){
+    console.clear();
+    //Set up render system and register input callbacks
+    initGFX();
+
+    // initialize things
+    c8.initialize();
+    var element = document.getElementById("rom");
+    c8.loadRom(element);
+
+    if(control.intervalId === 0){
+        startEmulation();
+    } else {
+        alert("The emulation is already running");
+    }
+
+};
+
+
+/*******************************************************************************
+ * Utility functions
+ *******************************************************************************/
 //translates to uint into an opcode number
 var t2Uint = function(a, b){
 	return (a << 8) | b;
