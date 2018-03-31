@@ -148,6 +148,31 @@ describe("OPCodes FWWW",function(){
                 expect(c8.memory[I + i]).toEqual(c8.V[i]);
             }
         })
+    });
+
+    describe("FX65: copys memory[I] - memory[I+X] to V0 - VX", function() {
+        it("F565: memory from 0 to 5, v0 to v5", function(){
+            c8.memory[512] = 0xf5;
+            c8.memory[513] = 0x65;
+
+            c8.I = 520;
+
+            for(var i = 0; i <= 5; i++){
+                c8.memory[c8.I + i] = i;
+            }
+
+
+
+            c8.emulateCycle();
+
+            var I = c8.I - 6;
+
+            expect(c8.I).toEqual(520 + 6);
+
+            for(i = 0; i <= 5; i++){
+                expect(c8.V[i]).toEqual(c8.memory[I + i]);
+            }
+        })
     })
 
 });
