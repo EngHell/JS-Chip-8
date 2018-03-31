@@ -572,6 +572,12 @@ var chip8 = function(){
 			return;
 		}
 		var file = element.files;
+
+        if(file.length < 1){
+            alert("Plese load a rom file first.");
+            return;
+        }
+
 		console.log("Rom name: " + file[0].name);
 		var view;
 		if(file.length < 1) {
