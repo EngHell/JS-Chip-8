@@ -139,6 +139,8 @@ draw.draw = function() {
  *******************************************************************************/
 document.getElementById("stop").onclick = function(){
     stopPauseEmulation();
+    draw.clearScren();
+    c8.initialized = false;
 };
 
 var postLoadRomFunction = function() {
