@@ -58,6 +58,7 @@ var tick = function(){
 	// look for window.addEventListener("keydown", keyDown, false);
 	
 	c8.emulateCycle();
+	debugger8.updateRegisters();
 	
 	if(c8.dFlags.d)
 		requestAnimationFrame(draw.draw);
@@ -159,6 +160,8 @@ document.getElementById("load").onclick = function(){
 
     // initialize things
     c8.initialize();
+    debugger8.initialize(c8, "v#");
+
     var element = document.getElementById("rom");
     c8.loadRom(element, postLoadRomFunction);
 
