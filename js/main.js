@@ -160,12 +160,22 @@ document.getElementById("load").onclick = function(){
     var element = document.getElementById("rom");
     c8.loadRom(element, postLoadRomFunction);
 
-    if(control.intervalId === 0){
-        startEmulation();
-    } else {
-        alert("The emulation is already running");
-    }
+};
 
+document.getElementById("continue").onclick = function() {
+	if(c8.initialized && control.intervalId === 0){
+		startEmulation();
+	}
+};
+
+document.getElementById("pause").onclick = function() {
+	if(c8.initialized && control.intervalId !== 0){
+		stopPauseEmulation();
+	}
+};
+
+document.getElementById("next").onclick = function() {
+	tick();
 };
 
 
