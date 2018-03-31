@@ -1,0 +1,21 @@
+.controls {
+  list-style: none;
+  padding: 0;
+  margin: 0; }
+  .controls li {
+    padding: 0;
+    margin: 0;
+    display: block;
+    float: left; }
+  .controls a {
+    display: block;
+    color: #333;
+    padding: 5px 10px;
+    font-size: 12px; }
+
+.clearfix::after {
+  content: '';
+  clear: both;
+  display: table; }
+
+/*# sourceMappingURL=style.css.map */
