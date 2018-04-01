@@ -1,13 +1,22 @@
 var debugger8 = (function(){
     var debugger8 = {
         domContainers: [],
-        c8 : {}
+        PC : {},
+        I : {},
+        c8 : {},
+        delay : {},
+        sound : {}
     };
 
     var self = debugger8;
 
-    debugger8.initialize = function(chip8, registerSelectorPattern) {
+    debugger8.initialize = function(chip8, registerSelectorPattern, pcSelector, iSelector, delaySelector, soundSelector) {
         self.c8 = chip8;
+
+        self.PC = document.getElementById(pcSelector);
+        self.I = document.getElementById(iSelector);
+        self.delay = document.getElementById(delaySelector);
+        self.sound = document.getElementById(soundSelector);
 
         for(var i = 0; i < 0xf; i++){
             var el = document.getElementById(registerSelectorPattern.replace("#",i.toString(16)));
@@ -19,6 +28,22 @@ var debugger8 = (function(){
         for(var i = 0; i < 0xf; i++){
             self.domContainers[i].innerHTML = c8.V[i];
         }
+    };
+
+    debugger8.updatePC = function() {
+        self.PC.innerHTML = c8.pc;
+    };
+
+    debugger8.updateI = function() {
+        self.I.innerHTML = c8.I;
+    };
+
+    debugger8.updateDelay = function() {
+        self.delay.innerHTML = c8.delay_timer;
+    };
+
+    debugger8.updateSound = function() {
+        self.sound.innerHTML = c8.sound_timer;
     };
 
     return debugger8;
