@@ -531,7 +531,7 @@ var chip8 = function(){
 						s.I += VX + 1;
 						break;
 
-					// FX65: starting at I = from V0 to VX
+					// FX65: starting at V0 = from memory I to memory I + X
 					case 0x0065:
 						logOpCode(opcode, "[mem]V0 to VX = starting at I");
 
