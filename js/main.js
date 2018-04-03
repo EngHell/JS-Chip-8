@@ -4,7 +4,7 @@
 var c8 = chip8();
 var ctx;
 var control = {
-	fps : 120,
+	tickRate : 256,
 	intervalId: 0
 };
 
@@ -84,7 +84,7 @@ var pauseEmulation = function() {
 };
 
 var startEmulation = function() {
-    control.intervalId = setInterval(tick, 100/ control.fps);
+    control.intervalId = setInterval(tick, 100/ control.tickRate);
 };
 
 
