@@ -60,6 +60,7 @@ var tick = function(){
 	c8.emulateCycle();
 
 	debugger8.updateRegisters();
+	debugger8.updateOpCode();
 	debugger8.updateI();
 	debugger8.updatePC();
 	debugger8.updateDelay();
@@ -165,7 +166,7 @@ document.getElementById("load").onclick = function(){
 
     // initialize things
     c8.initialize();
-    debugger8.initialize(c8, "v#", "PC", "I", "delay", "sound");
+    debugger8.initialize(c8, "v#", "PC", "I", "delay", "sound", "address");
 
     var element = document.getElementById("rom");
     c8.loadRom(element, postLoadRomFunction);
