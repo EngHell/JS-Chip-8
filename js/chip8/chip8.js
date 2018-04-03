@@ -536,8 +536,6 @@ var chip8 = function(){
 						for(i = 0; i<=X; i++){
 							s.V[i] = s.memory[s.I + i];
 						}
-
-						s.I += VX + 1;
 						break;
 
 					default:
