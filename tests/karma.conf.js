@@ -20,7 +20,7 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
-            "./../js/chip8.js",
+            "./../js/chip8/chip8.js",
             "./js/*.js"
         ],
 
@@ -32,7 +32,7 @@ module.exports = function (config) {
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
-            "./../js/chip8.js": ['coverage']
+            "./../js/chip8/chip8.js": ['coverage']
         },
 
 
@@ -71,7 +71,7 @@ module.exports = function (config) {
                     windowName: 'my-window',
                     settings: {
                         webSecurityEnabled: false
-                    },
+                    }
                 },
                 flags: ['--load-images=true'],
                 debug: true
