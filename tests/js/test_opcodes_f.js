@@ -141,12 +141,11 @@ describe("OPCodes FWWW",function(){
 
             c8.emulateCycle();
 
-            var I = c8.I - 6;
-
-            expect(c8.I).toEqual(520 + 6);
+            // I should not change.
+            expect(c8.I).toEqual(520);
 
             for(i = 0; i <= 5; i++){
-                expect(c8.memory[I + i]).toEqual(c8.V[i]);
+                expect(c8.memory[c8.I + i]).toEqual(c8.V[i]);
             }
         })
     });

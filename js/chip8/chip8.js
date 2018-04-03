@@ -527,8 +527,6 @@ var chip8 = function(){
 						for(i = 0; i<=X; i++){
 							s.memory[s.I + i] = s.V[i];
 						}
-
-						s.I += VX + 1;
 						break;
 
 					// FX65: starting at V0 = from memory I to memory I + X
