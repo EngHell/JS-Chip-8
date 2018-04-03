@@ -282,9 +282,9 @@ var chip8 = function(){
 					case 0x0006:
 						logOpCode(opcode, "[bo]VX = VX>>1");
 
-						var lsb = VY & 1;
+						var lsb = VX & 1;
 
-						s.V[X] = VY >> 1;
+						s.V[X] = VX >> 1;
 						s.V[0xf]=lsb;
 
 						console.log("[bo]VX:" + VY + ">>1: " + (VY >> 1).toString(2) + " lsb: " + lsb );
@@ -341,7 +341,7 @@ var chip8 = function(){
 			case 0xa000:
 				// Execute opcode
 				logOpCode(opcode, "[mem]I=NNN");
-				s.I = opcode & 0x0FFF;
+				s.I = NNN;
 				console.log("[mem]New I: " + s.I);
 				break;
 
@@ -471,7 +471,7 @@ var chip8 = function(){
 					case 0x0015:
 						logOpCode(opcode, "[tm]delay = VX");
 
-						VX = s.V[X];
+						//VX = s.V[X];
 						s.delay_timer = VX;
 
 						console.log("[tm]delay = " + VX);
@@ -481,7 +481,7 @@ var chip8 = function(){
 					case 0x0018:
 						logOpCode(opcode, "[tm]sound = VX");
 
-						VX = s.V[X];
+						//VX = s.V[X];
 						s.sound_timer = VX;
 
 						console.log("[tm]sound = " + VX);
@@ -491,7 +491,7 @@ var chip8 = function(){
 					case 0x001e:
 						logOpCode(opcode, "[mem]I += VX");
 
-						VX = s.V[X];
+						//VX = s.V[X];
 						s.I += VX;
 						s.V[0xf] = 0;
 						if(s.I > 0xfff)
@@ -504,7 +504,7 @@ var chip8 = function(){
 					case 0x0029:
 						logOpCode(opcode, "[mem]I = font char");
 
-						VX = s.V[X];
+						//VX = s.V[X];
 						s.I = VX * 5;
 
 						console.log("[mem]now I = " + s.I);
