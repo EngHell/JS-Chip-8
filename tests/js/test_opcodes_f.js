@@ -80,17 +80,18 @@ describe("OPCodes FWWW",function(){
         });
     });
 
-    describe("FX1E: Sets I to VX",function(){
+    describe("FX1E: Sets I to I + VX",function(){
 
         it("V2=4 then I = 4", function(){
 
             c8.memory[512] = 0xf2;
             c8.memory[513] = 0x1e;
             c8.V[2] = 4;
+            c8.I = 10;
 
             c8.emulateCycle();
 
-            expect(c8.I).toEqual(4);
+            expect(c8.I).toEqual( 10 + 4);
             expect(c8.pc).toEqual(514);
         });
     });
