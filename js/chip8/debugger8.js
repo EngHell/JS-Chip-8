@@ -5,15 +5,17 @@ var debugger8 = (function(){
         I : {},
         c8 : {},
         delay : {},
-        sound : {}
+        sound : {},
+        address : {}
     };
 
     var self = debugger8;
 
-    debugger8.initialize = function(chip8, registerSelectorPattern, pcSelector, iSelector, delaySelector, soundSelector) {
+    debugger8.initialize = function(chip8, registerSelectorPattern, pcSelector, iSelector, delaySelector, soundSelector, addressSelector) {
         self.c8 = chip8;
 
         self.PC = document.getElementById(pcSelector);
+        self.address = document.getElementById(addressSelector);
         self.I = document.getElementById(iSelector);
         self.delay = document.getElementById(delaySelector);
         self.sound = document.getElementById(soundSelector);
@@ -44,6 +46,10 @@ var debugger8 = (function(){
 
     debugger8.updateSound = function() {
         self.sound.innerHTML = c8.sound_timer;
+    };
+
+    debugger8.updateOpCode = function () {
+        self.address.innerHTML = ((c8.memory[c8.pc] << 8) | c8.memory[c8.pc +1]).toString(16);
     };
 
     return debugger8;
