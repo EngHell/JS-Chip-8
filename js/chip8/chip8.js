@@ -56,7 +56,8 @@ var chip8 = function(){
 		self.I = 0;
 		self.sp = 0;
 		self.ctx = ctx
-		self.imageData = ctx.getImageData(0,0,64,32) // RGBA values.
+		self.imageData = ctx.getImageData(0, 0, 64, 32) // RGBA values.
+		self.rgbaScreenClear()
 		self.gfx = new Uint8Array(64 * 32);
 		self.stack = new Uint16Array(16);
 		self.key = new Uint8Array(16);
@@ -88,9 +89,11 @@ var chip8 = function(){
 	}
 
 	chip8.rgbaScreenClear = function () {
-		self.imageData.data.fill(0)
 		for (i = 0; i < self.imageData.data.length / 4; i++){
-			self.imageData.data[(i*4)+3]=255
+			self.imageData.data[(i * 4)] = 0
+			self.imageData.data[(i * 4) + 1] = 0
+			self.imageData.data[(i * 4) + 2] = 0
+			self.imageData.data[(i * 4) + 3] = 255
 		}
 	}
 
