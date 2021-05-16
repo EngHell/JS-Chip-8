@@ -71,11 +71,18 @@ var tick = function () {
 	
 	
 
-	if (c8.dFlags.d) {
+	let interval = 1000 / 120
+	let currentTime = Date.now()
+	let delta = currentTime - lastDraw
+
+	if(c8.dFlags.d) c8.dFlags.d = false
+
+	if (delta > interval) {
 		requestAnimationFrame(function () {
-			ctx.putImageData(c8.imageData, 0, 0)
+			ctx.putImageData(c8.imageData,0,0)
 		})
-		c8.dFlags.d = false
+
+		lastDraw = Date.now()
 	}
 		
 	
