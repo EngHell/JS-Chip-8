@@ -48,13 +48,15 @@ var chip8 = function(){
 	};
 	var self = chip8;
 
-	chip8.initialize = function() {
+	chip8.initialize = function(ctx) {
 		self.memory = new Uint8Array(4096);
 		self.V = new Uint8Array(16);
 		self.pc = 0x200;
 		self.opcode = 0;
 		self.I = 0;
 		self.sp = 0;
+		self.ctx = ctx
+		self.imageData = ctx.getImageData(0,0,64,32) // RGBA values.
 		self.gfx = new Uint8Array(64 * 32);
 		self.stack = new Uint16Array(16);
 		self.key = new Uint8Array(16);
@@ -72,6 +74,25 @@ var chip8 = function(){
 
 		self.initialized = true;
 	};
+
+	/**
+	 * 
+	 * @param {int} offset this offset is in the native resolution
+	 */
+	chip8.rgbaPixelSet = function (offset, value) {
+		let offset4x = offset * 4
+		self.imageData.data[offset4x] = value;
+		self.imageData.data[offset4x+1] = value;
+		self.imageData.data[offset4x + 2] = value;
+		self.imageData.data[offset4x + 3] = 255
+	}
+
+	chip8.rgbaScreenClear = function () {
+		self.imageData.data.fill(0)
+		for (i = 0; i < self.imageData.data.length / 4; i++){
+			self.imageData.data[(i*4)+3]=255
+		}
+	}
 
 	chip8.emulateCycle = function() {
         var s = self;
@@ -102,8 +123,9 @@ var chip8 = function(){
 						// do something there
 						logOpCode(opcode, "[sc]!!screen cleared!!");
 						for(i = 0; i < s.gfx.length; i++){
-							s.gfx[i] = 0;
+							s.gfx.fill(0)
 						}
+						self.rgbaScreenClear()
 						s.dFlags.d = true;
 						s.dFlags.x = 0;
 						s.dFlags.y = 0;
@@ -381,7 +403,12 @@ var chip8 = function(){
 						if((pixel & (128 >> xline)) !== 0) {
 							var gfxOffset = xStart + xline +((yStart + yline) * 64);
                             s.gfx[gfxOffset] ^= 1;
-							if(s.gfx[gfxOffset] === 0) s.V[0xf] = 1;
+							if (s.gfx[gfxOffset] === 0) {
+								s.V[0xf] = 1
+								self.rgbaPixelSet(gfxOffset,0)
+							} else {
+								self.rgbaPixelSet(gfxOffset,255)
+							}
 						}
 					}
 				}

@@ -3,10 +3,13 @@
  *******************************************************************************/
 var c8 = chip8();
 var ctx;
+var imageData;
 var control = {
 	tickRate : 256,
 	intervalId: 0
 };
+
+var lastDraw = 0;
 
 
 /*******************************************************************************
@@ -53,7 +56,7 @@ window.addEventListener("keyup", keyUp, false);
 /*******************************************************************************
  * Emulation loop functions
  *******************************************************************************/
-var tick = function(){
+var tick = function () {
 	// the keys are event bounded so no need for special code there
 	// look for window.addEventListener("keydown", keyDown, false);
 	
@@ -66,8 +69,15 @@ var tick = function(){
 	debugger8.updateDelay();
 	debugger8.updateSound();
 	
-	if(c8.dFlags.d)
-		requestAnimationFrame(draw.draw);
+	
+
+	if (c8.dFlags.d) {
+		requestAnimationFrame(function () {
+			ctx.putImageData(c8.imageData, 0, 0)
+		})
+		c8.dFlags.d = false
+	}
+		
 	
 	if(c8.pc > (c8.romSize + 0x200)){
 		console.log("exiting execution since theres no thing to be accesed outside of rom memory");
@@ -84,7 +94,8 @@ var pauseEmulation = function() {
     control.intervalId = 0;
 };
 
-var startEmulation = function() {
+var startEmulation = function () {
+	lastDraw = Date.now()
     control.intervalId = setInterval(tick, 100/ control.tickRate);
 };
 
@@ -98,26 +109,10 @@ var startEmulation = function() {
 var initGFX = function() {
 	var c = document.getElementById("screen");
 	ctx = c.getContext("2d");
-	draw.clearScren();
 };
 
 // Canvas abstraction
 var draw = {};
-// draws a point
-draw.point = function(x, y, color){
-	var scaleFactor = 4;
-	
-	ctx.fillStyle = color;
-	// in this case 4 cuz ive set the scale of the screen to 4x
-	ctx.fillRect(x * scaleFactor,y * scaleFactor, scaleFactor, scaleFactor);
-};
-
-// clear the screen
-draw.clearScren = function() {
-	var scaleFactor = 4;
-	ctx.fillStyle = "#fff";
-	ctx.fillRect(0, 0, 64 * scaleFactor, 32 * scaleFactor)
-};
 
 // this is run everytime the draw flag is activated
 draw.draw = function() {
@@ -146,7 +141,7 @@ draw.draw = function() {
  *******************************************************************************/
 document.getElementById("stop").onclick = function(){
     pauseEmulation();
-    draw.clearScren();
+    c8.rgbaScreenClear();
     c8.initialized = false;
 };
 
@@ -162,10 +157,11 @@ var postLoadRomFunction = function() {
 document.getElementById("load").onclick = function(){
     console.clear();
     //Set up render system and register input callbacks
-    initGFX();
+	initGFX();
+	c8.initialize(ctx);
+    
 
     // initialize things
-    c8.initialize();
     debugger8.initialize(c8, "v#", "PC", "I", "delay", "sound", "address");
 
     var element = document.getElementById("rom");
