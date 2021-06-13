@@ -5,9 +5,10 @@ var c8 = chip8();
 var ctx;
 var imageData;
 var control = {
-	tickRate : 256,
+	tickRate : 128,
 	intervalId: 0
 };
+var canvas;
 
 var lastDraw = 0;
 
@@ -78,11 +79,11 @@ var tick = function () {
 	if(c8.dFlags.d) c8.dFlags.d = false
 
 	if (delta > interval) {
-		requestAnimationFrame(function () {
-			ctx.putImageData(c8.imageData,0,0)
-		})
-
 		lastDraw = Date.now()
+		requestAnimationFrame(function () {
+			ctx.putImageData(c8.imageData, 0, 0)
+			ctx.drawImage(canvas, 0, 0)
+		})
 	}
 		
 	
@@ -103,7 +104,7 @@ var pauseEmulation = function() {
 
 var startEmulation = function () {
 	lastDraw = Date.now()
-    control.intervalId = setInterval(tick, 100/ control.tickRate);
+    control.intervalId = setInterval(tick, 1000/ control.tickRate);
 };
 
 
@@ -114,8 +115,9 @@ var startEmulation = function () {
  * Initializes our canvas context
  */
 var initGFX = function() {
-	var c = document.getElementById("screen");
-	ctx = c.getContext("2d");
+	canvas = document.getElementById("screen");
+	ctx = canvas.getContext("2d");
+	ctx.scale(4,4)
 };
 
 // Canvas abstraction
